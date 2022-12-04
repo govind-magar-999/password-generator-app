@@ -8,13 +8,14 @@ const generateEl = document.getElementById('generate')
 const clipboardEl = document.getElementById('clipboard')
 const elArr = [uppercaseEl, lowercaseEl, numbersEl, symbolsEl]
 
-const randomFunc = {
-    lower: getRandomLower(),
-    upper: getRandomUpper(),
-    number: getRandomNumber(),
-    symbol: getRandomSymbol()
-}
-
+let uppercase = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+let lowercase = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','t','u','v','w','x','y','z'];
+let numbers = [1,2,3,4,5,6,7,8,9,0];
+let symbols = ['!','@','$','%','^','&','*'];
+let pwdSource = [];
+let passwordArr = [];
+let regex = (('A'||'B'||'C'||'D'||'E'||'F'||'G'||'H'||'I'||'J'||'K'||'L'||'M'||'N'||'O'||'P'||'Q'||'R'||'S'||'T'||'U'||'V'||'W'||'X'||'Y'||'Z')&&('a'||'b'||'c'||'d'||'e'||'f'||'g'||'h'||'i'||'j'||'k'||'l'||'m'||'n'||'o'||'p'||'q'||'r'||'s'||'t'||'t'||'u'||'v'||'w'||'x'||'y'||'z')&&(1||2||3||4||5||6||7||8||9||0)&&('!'||'@'||'$'||'%'||'^'||'&'||'*'))
+let final_pwd = '';
 clipboardEl.addEventListener('click', () => {
     
 })
@@ -32,18 +33,13 @@ generateEl.addEventListener('click', () => {
     generatePassword(pwdlength, ...checkArr)
 })
 
-let uppercase = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-let lowercase = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','t','u','v','w','x','y','z'];
-let numbers = [1,2,3,4,5,6,7,8,9,0];
-let symbols = ['!','@','$','%','^','&','*'];
-let pwdSource = [];
-let passwordArr = [];
-let regex = (('A'||'B'||'C'||'D'||'E'||'F'||'G'||'H'||'I'||'J'||'K'||'L'||'M'||'N'||'O'||'P'||'Q'||'R'||'S'||'T'||'U'||'V'||'W'||'X'||'Y'||'Z')&&('a'||'b'||'c'||'d'||'e'||'f'||'g'||'h'||'i'||'j'||'k'||'l'||'m'||'n'||'o'||'p'||'q'||'r'||'s'||'t'||'t'||'u'||'v'||'w'||'x'||'y'||'z')&&(1||2||3||4||5||6||7||8||9||0)&&('!'||'@'||'$'||'%'||'^'||'&'||'*'))
 function generatePassword(pwdlength, ...elements) {
     pwdSource = [];
     passwordArr = [];
-    if(elements.length<2){
-        alert("Please chose atleast two combinations!!");
+    if(elements.length<2||pwdlength>20||pwdlength<4){
+        alert(`1.Maximum allowed characters are 20!! 
+     2.Please chose atleast two combinations!!
+     3.Minumum password chracters are 4`);
         return;
     }else{
         let pwd_length  = pwdlength;
@@ -59,31 +55,17 @@ function generatePassword(pwdlength, ...elements) {
             }
         })
 
-            for(let i=1; i<=pwd_length; i++){
-                temp_var1 = Math.floor(Math.random()*pwdSource.length)
-                temp_var2 = Math.floor(Math.random()*pwdSource[temp_var1].length)
-                passwordArr.push(pwdSource[temp_var1][temp_var2]);
-            }
-
-            resultEl.innerText = passwordArr.join("");
+        for(let i=1; i<=pwd_length; i++){
+            let k = i<pwdSource.length?i:i%pwdSource.length;
+            temp_var2 = Math.floor(Math.random()*pwdSource[k].length)
+            passwordArr.push(pwdSource[k][temp_var2]);
+        }
+        final_pwd = passwordArr.join("");
+        resultEl.innerText = passwordArr.join("");
+        
     }
 }
-function getRandomLower() {
-    var isChecked = lowercaseEl.checked;
-    return isChecked;
-}
 
-function getRandomUpper() {
-    var isChecked = uppercaseEl.checked;
-    return isChecked;
-}
-
-function getRandomNumber() {
-    var isChecked = numbersEl.checked;
-    return isChecked;
-}
-
-function getRandomSymbol() {
-    var isChecked = symbolsEl.checked;
-    return isChecked;
-}
+clipboardEl.addEventListener('click', (e)=>{
+    resultEl.innerText
+});
